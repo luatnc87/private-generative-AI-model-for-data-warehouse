@@ -40,8 +40,8 @@ if st.sidebar.button("Load schema", type="primary"):
         st.info("Please add your DuckDB database or/ and schema to continue.")
         st.stop()
 
-    duckdb_connector, tables = load_db()
-    db_schema = [duckdb_connector.get_schema(table) for table in tables]
+    st.session_state.db_cnn, tables = load_db()
+    db_schema = [st.session_state.db_cnn.get_schema(table) for table in tables]
     st.session_state.formatter = RajkumarFormatter(db_schema)
 
 # Connect to model server
@@ -63,5 +63,8 @@ if prompt := st.chat_input():
     # ask the assistant
     response = ask_bot(prompt)
     # append assistant's message
-    st.session_state.messages.append({"role": "assistant", "content": response})
-    st.chat_message("assistant").write(response)
+    df = st.session_state.db_cnn.run_sql(response)
+    msg_content  = f"{response}"
+    st.session_state.messages.append({"role": "assistant", "content": msg_content})
+    st.chat_message("assistant").write(msg_content)
+    st.dataframe(df)

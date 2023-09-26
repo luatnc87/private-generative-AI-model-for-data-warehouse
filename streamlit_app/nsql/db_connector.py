@@ -44,3 +44,10 @@ class DuckDBConnector:
                 columns.append(TableColumn(name=col[0], dtype=col[1]))
 
             return Table(name=table, columns=columns)
+
+
+    def run_sql(self, sql: str):
+        """Run SQL statement."""
+        with self.connect() as conn:
+            print(f"Execute query: {sql}")
+            return conn.execute(sql).fetchdf()

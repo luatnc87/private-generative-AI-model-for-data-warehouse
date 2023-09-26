@@ -28,7 +28,11 @@ def ask_bot(instruction: str, max_tokens: int = 300) -> str:
     res = manifest_client.run(prompt, max_tokens=max_tokens)
     return formatter.format_model_output(res)
 
+
+# Chat with SQL-bot
 ask = f"Number of rows in {TABLES[0]} table?"
 print(f"Ask: {ask}")
-anwser_sql = ask_bot(ask)
-print(f"Answer: {anwser_sql}")
+response_sql = ask_bot(ask)
+print(f"Answer: {response_sql}")
+df = duckdb_connector.run_sql(response_sql)
+print(f"{df.to_string()}")
