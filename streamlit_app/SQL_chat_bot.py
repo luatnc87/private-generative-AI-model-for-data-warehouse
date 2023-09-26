@@ -34,7 +34,6 @@ def load_db():
     return db_conn, tables
 
 # Get the connector and formatter
-formatter: RajkumarFormatter = None
 if st.sidebar.button("Load schema", type="primary"):
     if (not duckdb_database_path) or (not duckdb_schema):
         st.info("Please add your DuckDB database or/ and schema to continue.")

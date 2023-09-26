@@ -76,11 +76,10 @@ class RajkumarFormatter:
     ) -> str:
         """Get prompt format."""
         sql_prefix = "SELECT"
-        return f"""{self.table_str}\n\n\n-- Using valid SQLite, answer the following questions for the tables provided above.\n\n-- {instruction}\n{sql_prefix}"""  # noqa: E501
+        return f"""{self.table_str}\n\n\n-- Using valid DuckDB, answer the following questions for the tables provided above.\n\n-- {instruction}\n{sql_prefix}"""  # noqa: E501
 
     def format_model_output(self, output_sql: str) -> str:
         """Format model output.
-
         Our prompt ends with SELECT so we need to add it back.
         """
         if not output_sql.lower().startswith("select"):
